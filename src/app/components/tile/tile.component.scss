@@ -1,0 +1,35 @@
+.card {
+  &:hover {
+    & > .img-overlay {
+      display: block;
+    }
+  }
+
+  & > .img-overlay {
+    display: none;
+  }
+}
+
+.card-img {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+  
+  &.square {
+    &:before {
+      content: "";
+      display: block;
+      padding-top: 100%;  /* initial ratio of 1:1*/
+    }
+  }
+}
+
+.img-overlay {
+    position: absolute;
+    bottom: 0;        
+    padding: 0.5rem;
+    background: rgba(0,0,0,0.5);
+    max-height: 100%;
+    overflow: hidden;
+}

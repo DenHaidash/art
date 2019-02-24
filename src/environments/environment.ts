@@ -3,7 +3,14 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+
+  rijksmuseumApiCongif: {
+    baseUrl: 'https://www.rijksmuseum.nl',
+    culture: 'en',
+    apiKey: 'm2j7Xm3C',
+    withImageOnly: true
+  }
 };
 
 /*
