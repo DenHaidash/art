@@ -1,3 +1,22 @@
-<art-tiles-list [objects]="objects">
+<ng-container *ngIf="isLoading; else tiles">
+  Loading...
+</ng-container>
 
-</art-tiles-list>
+<ng-template #tiles>
+  <ng-container *ngIf="hasResults; else noResults">
+    <art-tiles-list [objects]="results.artObjects">
+
+    </art-tiles-list>
+    <ngb-pagination
+      [collectionSize]="results.count"
+      [page]="requestParams.controls.currentPage.value"
+      (pageChange)="onPageChange($event)"
+      [maxSize]="requestParams.controls.pageSize.value"
+      [boundaryLinks]="true">
+    </ngb-pagination>
+  </ng-container>
+
+  <ng-template #noResults>
+    No results
+  </ng-template>
+</ng-template>

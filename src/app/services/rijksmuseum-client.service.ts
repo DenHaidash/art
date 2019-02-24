@@ -9,7 +9,10 @@ export class RijksmuseumClientService {
     constructor(private httpClient: HttpClient) {}
 
     getCollection(pageNumber: number, pageSize: number = 25): Observable<any> {
-        return this.httpClient.get(`${this.getBaseUrl()}/collection?${this.prepareQueryParams()}`);
+        return this.httpClient.get(`${this.getBaseUrl()}/collection?${this.prepareQueryParams({
+            p: pageNumber,
+            ps: pageSize
+        })}`);
     }
 
     getDetails(id: string): Observable<any> {
@@ -20,7 +23,9 @@ export class RijksmuseumClientService {
         return `${environment.rijksmuseumApiCongif.baseUrl}/api/${environment.rijksmuseumApiCongif.culture}`;
     }
 
-    private prepareQueryParams(): string {
-        return `key=${environment.rijksmuseumApiCongif.apiKey}&format=json&imgonly=${environment.rijksmuseumApiCongif.withImageOnly}`;
+    private prepareQueryParams(options: any = {}): string {
+        options = options || {};
+        const params = Object.keys(options).reduce((acc, key) => `${acc}&${key}=${options[key]}`, '');
+        return `key=${environment.rijksmuseumApiCongif.apiKey}&format=json&imgonly=${environment.rijksmuseumApiCongif.withImageOnly}${params}`;
     }
 }
