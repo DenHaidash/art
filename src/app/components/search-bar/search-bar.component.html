@@ -1,0 +1,11 @@
+<form novalidate (ngSubmit)="onSubmit()">
+  <div class="input-group">
+    <input name="search" type="text" class="form-control" placeholder="Search keyword..."
+      [(ngModel)]="searchString"
+      (blur)="onTouched()">
+    <div class="input-group-append">
+      <button type="submit" class="btn btn-primary">Search</button>        
+    </div>
+  </div>
+</form>
+

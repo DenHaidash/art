@@ -1,0 +1,11 @@
+<ng-container *ngFor="let pageSize of pageSizes; last as last">
+  <span class="page-size"
+    title="Page size: {{pageSize}}"
+    [class.active]="pageSize == selectedPageSize"
+    (click)="onSelect(pageSize)">
+    {{pageSize}}
+  </span>
+  <span *ngIf="!last" class="mx-2">
+    |
+  </span>
+</ng-container>

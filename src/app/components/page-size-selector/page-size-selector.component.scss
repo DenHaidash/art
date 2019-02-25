@@ -1,0 +1,12 @@
+.page-size {
+  cursor: pointer;
+  
+  &.active,
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &.active {
+    font-weight: 500;
+  }
+}

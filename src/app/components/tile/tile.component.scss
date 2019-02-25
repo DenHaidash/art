@@ -1,4 +1,6 @@
 .card {
+  cursor: pointer;
+
   &:hover {
     & > .img-overlay {
       display: block;
@@ -14,7 +16,6 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  cursor: pointer;
   
   &.square {
     &:before {

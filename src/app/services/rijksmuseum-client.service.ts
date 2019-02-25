@@ -8,10 +8,12 @@ import { environment } from '../../environments/environment';
 export class RijksmuseumClientService {
     constructor(private httpClient: HttpClient) {}
 
-    getCollection(pageNumber: number, pageSize: number = 25): Observable<any> {
+    getCollection(params: any): Observable<any> {
         return this.httpClient.get(`${this.getBaseUrl()}/collection?${this.prepareQueryParams({
-            p: pageNumber,
-            ps: pageSize
+            p: params.pageNumber,
+            ps: params.pageSize,
+            s: params.orderBy,
+            q: params.searchString
         })}`);
     }
 

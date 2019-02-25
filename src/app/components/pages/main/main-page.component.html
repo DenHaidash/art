@@ -1,22 +1,59 @@
-<ng-container *ngIf="isLoading; else tiles">
-  Loading...
+<div class="row my-3">
+  <div class="col-6 col-sm-4 mb-3 mb-sm-0">
+    <art-order-by-selector
+      [formControl]="requestParams.get('orderBy')">
+    </art-order-by-selector>
+  </div>
+  <div class="col-12 col-sm-8">
+    <art-search-bar
+      [formControl]="requestParams.get('searchString')">
+    </art-search-bar>
+  </div>
+</div>
+
+<ng-container *ngIf="isLoading; else result">
+  <div class="d-flex align-items-center justify-content-center">
+    <div class="spinner-border text-primary mr-3" role="status"></div>
+    <strong>Loading...</strong>
+  </div>
 </ng-container>
 
-<ng-template #tiles>
-  <ng-container *ngIf="hasResults; else noResults">
-    <art-tiles-list [objects]="results.artObjects">
-
-    </art-tiles-list>
-    <ngb-pagination
-      [collectionSize]="results.count"
-      [page]="requestParams.controls.currentPage.value"
-      (pageChange)="onPageChange($event)"
-      [maxSize]="requestParams.controls.pageSize.value"
-      [boundaryLinks]="true">
-    </ngb-pagination>
+<ng-template #result>
+  <ng-container *ngIf="!hasError; else error">
+    <ng-container *ngIf="hasResults; else noResults">
+      <art-tiles-list
+        [objects]="results.artObjects">
+      </art-tiles-list>
+  
+      <div class="row my-3">
+        <ngb-pagination
+          class="col-12 col-sm-8 d-flex justify-content-center"
+          [collectionSize]="totalPages"
+          [page]="requestParams.controls.currentPage.value"
+          (pageChange)="onPageChange($event)"
+          [maxSize]="5"
+          [boundaryLinks]="true">
+        </ngb-pagination>
+        <art-page-size-selector
+          class="col-12 col-sm-4 d-flex justify-content-center"
+          [pageSizes]="[20, 50, 100]"
+          [selectedPageSize]="requestParams.controls.pageSize.value"
+          (pageSizeChange)="onPageSizeChange($event)">
+        </art-page-size-selector>
+      </div>
+    </ng-container>
   </ng-container>
+</ng-template>
 
-  <ng-template #noResults>
-    No results
-  </ng-template>
+<ng-template #error>
+  <div class="alert alert-danger text-center" role="alert">
+    <b>Oops, something went wrong!</b>
+  </div>
+</ng-template>
+
+  
+<ng-template #noResults>
+  <div class="alert alert-secondary text-center" role="alert">
+    <b>No art object could be found by your query</b>
+  </div>
 </ng-template>
