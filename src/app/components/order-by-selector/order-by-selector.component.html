@@ -1,13 +1,13 @@
 <div class="input-group">
-    <div class="input-group-prepend">
-      <label class="input-group-text" for="orderby">Order by</label>
-    </div>
-    <select class="custom-select" id="orderby" [formControl]="orderControl">
-      <option value="relevance">Relevance</option>
-      <option value="objecttype">Object type</option>
-      <option value="chronologic">Chronologic</option>
-      <option value="achronologic">Achronologic</option>
-      <option value="artist">Artist</option>
-      <option value="artistdesc">Artist desc</option>
-    </select>
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="orderby">Order by</label>
   </div>
+  <select class="custom-select" id="orderby" [formControl]="orderControl">
+    <option [value]="orderByType.Relevance">Relevance</option>
+    <option [value]="orderByType.Objecttype">Object type</option>
+    <option [value]="orderByType.Chronologic">Chronologic</option>
+    <option [value]="orderByType.Achronologic">Achronologic</option>
+    <option [value]="orderByType.Artist">Artist</option>
+    <option [value]="orderByType.ArtistDesc">Artist desc</option>
+  </select>
+</div>

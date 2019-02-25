@@ -1,13 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
 
 @Component({
-    selector: 'art-tiles-list',
-    templateUrl: './tiles-list.component.html',
+  selector: "art-tiles-list",
+  templateUrl: "./tiles-list.component.html"
 })
-export class TilesListComponent implements OnInit {
-    @Input() objects: any[] = [];
-
-    constructor() { }
-
-    ngOnInit(): void { }
+export class TilesListComponent {
+  @Input() objects: any[] = [];
 }

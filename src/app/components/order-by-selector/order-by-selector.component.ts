@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { OrderByType } from 'src/app/models/order-by-type';
 
 @Component({
   selector: 'art-order-by-selector',
@@ -16,7 +17,9 @@ export class OrderBySelectorComponent implements OnDestroy, ControlValueAccessor
   private componentDestroyedSubject = new Subject<boolean>();
   private componentDestroyed$: Observable<boolean>;
 
-  orderControl = new FormControl();
+  readonly orderControl = new FormControl();
+
+  readonly orderByType = OrderByType;
 
   constructor() {
     this.componentDestroyed$ = this.componentDestroyedSubject.asObservable();
