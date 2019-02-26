@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -12,6 +12,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class SearchBarComponent implements ControlValueAccessor {
   searchString = '';
+
+  private prevSearchString = '';
 
   onChange: (value: string) => void = () => {};
   onTouched: () => void = () => {};
@@ -29,6 +31,11 @@ export class SearchBarComponent implements ControlValueAccessor {
   }
 
   onSubmit(): void {
+    if (this.prevSearchString === this.searchString) {
+      return;
+    }
+
     this.onChange(this.searchString);
+    this.prevSearchString = this.searchString;
   }
 }

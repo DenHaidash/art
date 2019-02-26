@@ -1,0 +1,27 @@
+<div class="row" *ngIf="(object$ | async) as object; else loadingOrError">
+  <div class="col-12 col-sm-6">
+    <img
+      src="{{ object.webImage.url }}"
+      alt="Object's image"
+      class="img-thumbnail"
+    />
+  </div>
+  <div class="col-12 col-sm-6">
+    <p>{{ object.description }}</p>
+  </div>
+</div>
+
+<ng-template #loadingOrError>
+  <ng-container *ngIf="!hasError; else error">
+    <div class="d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary mr-3" role="status"></div>
+      <strong>Loading...</strong>
+    </div>
+  </ng-container>  
+</ng-template>
+
+<ng-template #error>
+  <div class="alert alert-danger text-center" role="alert">
+    <b>Oops, something went wrong!</b>
+  </div>
+</ng-template>

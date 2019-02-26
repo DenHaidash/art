@@ -1,12 +1,12 @@
-import { Component, OnDestroy } from "@angular/core";
-import { RijksmuseumClientService } from "src/app/services/rijksmuseum-client.service";
-import { FormGroup, FormControl } from "@angular/forms";
-import { Observable, Subject } from "rxjs";
-import { switchMap, tap, takeUntil, debounceTime } from "rxjs/operators";
+import { Component, OnDestroy } from '@angular/core';
+import { RijksmuseumClientService } from 'src/app/services/rijksmuseum-client.service';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
+import { switchMap, tap, takeUntil, debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: "art-main-page",
-  templateUrl: "./main-page.component.html"
+  selector: 'art-main-page',
+  templateUrl: './main-page.component.html'
 })
 export class MainPageComponent implements OnDestroy {
   results: any;
@@ -14,8 +14,8 @@ export class MainPageComponent implements OnDestroy {
   readonly requestParams = new FormGroup({
     currentPage: new FormControl(1),
     pageSize: new FormControl(20),
-    searchString: new FormControl(""),
-    orderBy: new FormControl("relevance")
+    searchString: new FormControl(''),
+    orderBy: new FormControl('relevance')
   });
 
   isLoading = true;

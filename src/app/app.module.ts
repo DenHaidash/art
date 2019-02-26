@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPaginationModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -14,6 +14,7 @@ import { TileComponent } from './components/tile/tile.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { OrderBySelectorComponent } from './components/order-by-selector/order-by-selector.component';
 import { PageSizeSelectorComponent } from './components/page-size-selector/page-size-selector.component';
+import { TileDetailsComponent } from './components/tile-details/tile-details.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { PageSizeSelectorComponent } from './components/page-size-selector/page-
     DetailsPageComponent,
     TilesListComponent,
     TileComponent,
+    TileDetailsComponent,
     SearchBarComponent,
     OrderBySelectorComponent,
     PageSizeSelectorComponent
@@ -31,6 +33,7 @@ import { PageSizeSelectorComponent } from './components/page-size-selector/page-
     AppRoutingModule,
     HttpClientModule,
     NgbPaginationModule,
+    NgbModalModule,
     ReactiveFormsModule,
     FormsModule
   ],
