@@ -1,13 +1,13 @@
-<div class="row" *ngIf="(object$ | async) as object; else loadingOrError">
+<div class="row" *ngIf="(artObject$ | async) as artObject; else loadingOrError">
   <div class="col-12 col-sm-6">
     <img
-      src="{{ object.webImage.url }}"
-      alt="Object's image"
+      src="{{ artObject.webImage?.url }}"
+      alt="Art object's image"
       class="img-thumbnail"
     />
   </div>
   <div class="col-12 col-sm-6">
-    <p>{{ object.description }}</p>
+    <p>{{ artObject.description }}</p>
   </div>
 </div>
 

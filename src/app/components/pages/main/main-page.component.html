@@ -6,54 +6,38 @@
   </div>
   <div class="col-12 col-sm-8">
     <art-search-bar
-      [formControl]="requestParams.get('searchString')">
+      [ngModel]="requestParams.get('searchString').value"
+      (ngModelChange)="onSearchStringChange($event)"
+    >
     </art-search-bar>
   </div>
 </div>
 
-<ng-container *ngIf="isLoading; else result">
-  <div class="d-flex align-items-center justify-content-center">
-    <div class="spinner-border text-primary mr-3" role="status"></div>
-    <strong>Loading...</strong>
+<ng-container *ngIf="hasResults; else noResults">
+  <art-object-tile-list
+    [artObjects]="artObjectList.artObjects">
+  </art-object-tile-list>
+
+  <div class="row my-3">
+    <ngb-pagination
+      class="col-12 col-sm-8 d-flex justify-content-center"
+      [collectionSize]="totalPages"
+      [page]="requestParams.controls.currentPage.value"
+      (pageChange)="onPageChange($event)"
+      [maxSize]="5"
+      [boundaryLinks]="true">
+    </ngb-pagination>
+    <art-page-size-selector
+      class="col-12 col-sm-4 d-flex justify-content-center"
+      [pageSizes]="[20, 50, 100]"
+      [selectedPageSize]="requestParams.controls.pageSize.value"
+      (pageSizeChange)="onPageSizeChange($event)">
+    </art-page-size-selector>
   </div>
 </ng-container>
-
-<ng-template #result>
-  <ng-container *ngIf="!hasError; else error">
-    <ng-container *ngIf="hasResults; else noResults">
-      <art-tiles-list
-        [objects]="results.artObjects">
-      </art-tiles-list>
-  
-      <div class="row my-3">
-        <ngb-pagination
-          class="col-12 col-sm-8 d-flex justify-content-center"
-          [collectionSize]="totalPages"
-          [page]="requestParams.controls.currentPage.value"
-          (pageChange)="onPageChange($event)"
-          [maxSize]="5"
-          [boundaryLinks]="true">
-        </ngb-pagination>
-        <art-page-size-selector
-          class="col-12 col-sm-4 d-flex justify-content-center"
-          [pageSizes]="[20, 50, 100]"
-          [selectedPageSize]="requestParams.controls.pageSize.value"
-          (pageSizeChange)="onPageSizeChange($event)">
-        </art-page-size-selector>
-      </div>
-    </ng-container>
-  </ng-container>
-</ng-template>
-
-<ng-template #error>
-  <div class="alert alert-danger text-center" role="alert">
-    <b>Oops, something went wrong!</b>
-  </div>
-</ng-template>
-
   
 <ng-template #noResults>
   <div class="alert alert-secondary text-center" role="alert">
-    <b>No art object could be found by your query</b>
+    <b>No art objects could be found by your query</b>
   </div>
 </ng-template>

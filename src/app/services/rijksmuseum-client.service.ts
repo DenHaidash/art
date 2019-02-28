@@ -7,14 +7,14 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class RijksmuseumClientService {
-  private objectsCache = new Map();
+  private artObjectsCache = new Map();
 
   constructor(private httpClient: HttpClient) {}
 
   getCollection(params: any): Observable<any> {
     return this.httpClient.get(
       `${this.getBaseUrl()}/collection?${this.prepareQueryParams({
-        p: params.pageNumber,
+        p: params.currentPage,
         ps: params.pageSize,
         s: params.orderBy,
         q: params.searchString
@@ -25,15 +25,15 @@ export class RijksmuseumClientService {
   }
 
   getDetails(id: string, bypassCache = false): Observable<any> {
-    if (!bypassCache && this.objectsCache.has(id)) {
-        return of(this.objectsCache.get(id));
+    if (!bypassCache && this.artObjectsCache.has(id)) {
+        return of(this.artObjectsCache.get(id));
     }
 
     return this.httpClient.get(
       `${this.getBaseUrl()}/collection/${id}?${this.prepareQueryParams()}`
     ).pipe(
-        tap((obj) => {
-            this.objectsCache.set(id, obj);
+        tap((artObject: any) => {
+            this.artObjectsCache.set(id, artObject);
         }),
         share()
     );

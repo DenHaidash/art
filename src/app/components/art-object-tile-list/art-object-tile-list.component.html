@@ -1,0 +1,33 @@
+<div class="row">
+  <art-object-tile
+    *ngFor="let artObject of artObjects"
+    (click)="openModal(artObject)"
+    [artObject]="artObject"
+    class="col-12 col-sm-4 col-md-3 my-3"
+  >
+  </art-object-tile>
+</div>
+
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      {{ selectedArtObject?.title }}
+    </h5>
+  </div>
+  <div class="modal-body">
+    <art-object-details [artObjectNumber]="selectedArtObject?.objectNumber">
+    </art-object-details>
+  </div>
+  <div class="modal-footer d-flex">
+    <button
+      type="button"
+      class="btn btn-info mr-auto"
+      [routerLink]="['/details', selectedArtObject?.objectNumber]"
+    >
+      View more details
+    </button>
+    <button type="button" class="btn btn-light" (click)="modal.close()">
+      Close
+    </button>
+  </div>
+</ng-template>

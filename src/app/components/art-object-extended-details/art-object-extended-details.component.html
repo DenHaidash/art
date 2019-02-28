@@ -1,0 +1,35 @@
+<img src="{{artObject?.webImage.url}}" class="img-fluid mt-3" alt="Art object image">
+<h3 class="text-center my-3">
+  {{artObject?.title}}
+</h3>
+<div class="row mb-4">
+  <div class="col-8 border-right">
+    <p>
+      {{artObject?.description}}
+    </p>
+  </div>
+  <div class="col-4">
+    <div class="mb-3">
+      <h6>
+        Category
+      </h6>
+      <div>
+        Unknown
+      </div>
+    </div>
+    <div>
+      <h6>
+        Tags
+      </h6>
+      <div *ngIf="artObject?.tags && artObject?.tags.length > 0; else noTags">
+        <span *ngFor="let tag of artObject?.tags">
+          {{tag}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noTags>
+  No tags
+</ng-template>

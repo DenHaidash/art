@@ -1,5 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormControl,
+  NG_VALUE_ACCESSOR
+} from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderByType } from 'src/app/models/order-by-type';
@@ -7,13 +11,16 @@ import { OrderByType } from 'src/app/models/order-by-type';
 @Component({
   selector: 'art-order-by-selector',
   templateUrl: './order-by-selector.component.html',
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: OrderBySelectorComponent,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: OrderBySelectorComponent,
+      multi: true
+    }
+  ]
 })
-export class OrderBySelectorComponent implements OnDestroy, ControlValueAccessor {
+export class OrderBySelectorComponent
+  implements OnDestroy, ControlValueAccessor {
   private componentDestroyedSubject = new Subject<boolean>();
   private componentDestroyed$: Observable<boolean>;
 
@@ -23,9 +30,11 @@ export class OrderBySelectorComponent implements OnDestroy, ControlValueAccessor
 
   constructor() {
     this.componentDestroyed$ = this.componentDestroyedSubject.asObservable();
-    this.orderControl.valueChanges.pipe(takeUntil(this.componentDestroyed$)).subscribe((orderBy) => {
-      this.onChange(orderBy);
-    });
+    this.orderControl.valueChanges
+      .pipe(takeUntil(this.componentDestroyed$))
+      .subscribe(orderBy => {
+        this.onChange(orderBy);
+      });
   }
 
   ngOnDestroy(): void {

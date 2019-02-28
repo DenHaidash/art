@@ -1,38 +1,34 @@
 import { Component, OnDestroy } from '@angular/core';
-import { RijksmuseumClientService } from 'src/app/services/rijksmuseum-client.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
-import { switchMap, tap, takeUntil, debounceTime } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
+import { defaultQueryParams } from 'src/app/routing/resolvers/art-object-list.resolver';
 
 @Component({
   selector: 'art-main-page',
   templateUrl: './main-page.component.html'
 })
 export class MainPageComponent implements OnDestroy {
-  results: any;
+  artObjectList: any;
 
-  readonly requestParams = new FormGroup({
-    currentPage: new FormControl(1),
-    pageSize: new FormControl(20),
-    searchString: new FormControl(''),
-    orderBy: new FormControl('relevance')
-  });
+  readonly requestParams: FormGroup;
 
-  isLoading = true;
+  isLoading = false;
   hasError = false;
 
   get hasResults(): boolean {
     return (
-      this.results &&
-      this.results.artObjects &&
-      this.results.artObjects.length > 0
+      this.artObjectList &&
+      this.artObjectList.artObjects &&
+      this.artObjectList.artObjects.length > 0
     );
   }
 
   get totalPages(): number {
     if (this.hasResults) {
       const estimatedPageQuantity = Math.ceil(
-        this.results.count / this.requestParams.controls.pageSize.value
+        this.artObjectList.count / this.requestParams.controls.pageSize.value
       );
 
       const maxAllowedResultsNumber = 10000;
@@ -48,35 +44,42 @@ export class MainPageComponent implements OnDestroy {
   private readonly componentDestroyedSubject = new Subject<boolean>();
   private readonly componentDestroyed$: Observable<boolean>;
 
-  constructor(private rijksmuseumClient: RijksmuseumClientService) {
+  constructor(router: Router, activetedRoute: ActivatedRoute) {
+    this.requestParams = new FormGroup({
+      currentPage: new FormControl(defaultQueryParams.currentPage),
+      pageSize: new FormControl(defaultQueryParams.pageSize),
+      searchString: new FormControl(defaultQueryParams.searchString),
+      orderBy: new FormControl(defaultQueryParams.orderBy)
+    });
+
     this.componentDestroyed$ = this.componentDestroyedSubject.asObservable();
 
-    this.requestParams.valueChanges
-      .pipe(
-        takeUntil(this.componentDestroyed$),
-        debounceTime(200),
-        tap(() => {
-          this.isLoading = true;
-          this.hasError = false;
-        }),
-        switchMap(params => this.rijksmuseumClient.getCollection(params)),
-        tap(() => {
-          this.isLoading = false;
-        })
-      )
-      .subscribe(
-        results => {
-          this.results = results;
-        },
-        () => {
-          this.hasError = true;
-        }
-      );
-
-    this.requestParams.updateValueAndValidity({
-      emitEvent: true,
-      onlySelf: false
+    this.requestParams.patchValue(activetedRoute.snapshot.queryParams, {
+      emitEvent: false
     });
+
+    activetedRoute.data
+      .pipe(takeUntil(this.componentDestroyed$))
+      .subscribe(({ artObjectList }: { artObjectList: any }) => {
+        this.artObjectList = artObjectList;
+      });
+
+    this.requestParams.valueChanges
+      .pipe(takeUntil(this.componentDestroyed$))
+      .subscribe(params => {
+        router.navigate(['/'], {
+          queryParams: this.shrinkQueryParams(params)
+        });
+      });
+  }
+
+  private shrinkQueryParams(queryParams: any): any {
+    return Object.keys(queryParams)
+      .filter(key => queryParams[key])
+      .reduce((params, key) => {
+        params[key] = queryParams[key];
+        return params;
+      }, {});
   }
 
   onPageChange(pageNum: number): void {
@@ -89,6 +92,13 @@ export class MainPageComponent implements OnDestroy {
     this.requestParams.patchValue({
       currentPage: 1,
       pageSize
+    });
+  }
+
+  onSearchStringChange(searchString: string): void {
+    this.requestParams.patchValue({
+      currentPage: 1,
+      searchString
     });
   }
 

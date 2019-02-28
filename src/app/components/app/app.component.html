@@ -4,5 +4,19 @@
       Rijksmuseum
     </a>
   </h1>
+  
+  <ng-container *ngIf="isLoading">
+    <div class="d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary mr-3" role="status"></div>
+      <strong>Loading...</strong>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="hasError">
+    <div class="alert alert-danger text-center" role="alert">
+      <b>Oops, something went wrong!</b>
+    </div>
+  </ng-container>
+  
   <router-outlet></router-outlet>
 </div>

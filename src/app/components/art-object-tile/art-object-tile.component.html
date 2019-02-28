@@ -1,0 +1,11 @@
+<div class="card bg-dark text-white">
+  <div class="card-img square" [ngStyle]="{
+    'background-image': 'url(' + artObject.headerImage?.url + ')'
+  }">
+  </div>
+  <div class="img-overlay" [title]="artObject.title">
+    <p class="card-text">
+      {{artObject.longTitle}}    
+    </p>
+  </div>
+</div>

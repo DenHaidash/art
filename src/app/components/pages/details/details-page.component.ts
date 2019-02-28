@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'art-details-page',
   templateUrl: './details-page.component.html'
 })
-export class DetailsPageComponent implements OnInit {
-  constructor() {}
+export class DetailsPageComponent {
+  artObject: any;
 
-  ngOnInit(): void {}
+  constructor(activedRoute: ActivatedRoute) {
+    this.artObject = activedRoute.snapshot.data['artObject'];
+  }
 }
