@@ -17,7 +17,7 @@
         Unknown
       </div>
     </div>
-    <div>
+    <div class="mb-3">
       <h6>
         Tags
       </h6>
@@ -26,6 +26,23 @@
           {{tag}}
         </span>
       </div>
+    </div>
+
+    <div>
+      <button
+        *ngIf="!isFavorite(artObject); else removeFromFavs"
+        class="btn btn-success"
+        (click)="addToFavorites(artObject)">
+        Add to favorites
+      </button>
+  
+      <ng-template #removeFromFavs>
+        <button
+          class="btn btn-danger"
+          (click)="removeFromFavorites(artObject)">
+          Remove from favorites
+        </button>
+      </ng-template>
     </div>
   </div>
 </div>

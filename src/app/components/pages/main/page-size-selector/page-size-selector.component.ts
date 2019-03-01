@@ -7,7 +7,7 @@ import { Component, Output, Input, EventEmitter } from '@angular/core';
 })
 export class PageSizeSelectorComponent {
   @Input() pageSizes: number[] = [];
-  @Input() selectedPageSize: number | undefined;
+  @Input() selectedPageSize: number;
 
   @Output() pageSizeChange = new EventEmitter<number>();
 

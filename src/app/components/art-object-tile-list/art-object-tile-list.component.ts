@@ -6,23 +6,24 @@ import {
   OnDestroy
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ArtObject } from 'src/app/models/domain/art-object';
 
 @Component({
   selector: 'art-object-tile-list',
   templateUrl: './art-object-tile-list.component.html'
 })
 export class ArtObjectTileListComponent implements OnDestroy {
-  @Input() artObjects: any[] = [];
+  @Input() artObjects: ArtObject[] = [];
 
   @ViewChild('modal', { read: TemplateRef })
-  modal: TemplateRef<any>;
+  modal: TemplateRef<ArtObject>;
 
-  selectedArtObject: any | null = null;
+  selectedArtObject: ArtObject | null = null;
 
   constructor(private modalService: NgbModal) {}
 
-  openModal(obj: any): void {
-    this.selectedArtObject = obj;
+  openModal(artObject: ArtObject): void {
+    this.selectedArtObject = artObject;
 
     this.modalService.open(this.modal, {
       centered: true,

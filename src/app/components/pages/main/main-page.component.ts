@@ -1,21 +1,21 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { defaultQueryParams } from 'src/app/routing/resolvers/art-object-list.resolver';
+import { ArtObjectListResponse } from 'src/app/models/domain/art-object-list-response';
+import { QueryParams } from 'src/app/models/query-params';
+import { FavoriteArtObjectsService } from 'src/app/services/favorite-art-objects.service';
 
 @Component({
   selector: 'art-main-page',
   templateUrl: './main-page.component.html'
 })
 export class MainPageComponent implements OnDestroy {
-  artObjectList: any;
+  artObjectList: ArtObjectListResponse;
 
   readonly requestParams: FormGroup;
-
-  isLoading = false;
-  hasError = false;
 
   get hasResults(): boolean {
     return (
@@ -41,10 +41,18 @@ export class MainPageComponent implements OnDestroy {
     return 0;
   }
 
+  get isFavoritesMode(): boolean {
+    return this.activetedRoute.snapshot.data.onlyFavorites;
+  }
+
   private readonly componentDestroyedSubject = new Subject<boolean>();
   private readonly componentDestroyed$: Observable<boolean>;
 
-  constructor(router: Router, activetedRoute: ActivatedRoute) {
+  get favoritesCount(): number {
+      return this.favoritesService.getFavoritesCount();
+  }
+
+  constructor(router: Router, private activetedRoute: ActivatedRoute, private favoritesService: FavoriteArtObjectsService) {
     this.requestParams = new FormGroup({
       currentPage: new FormControl(defaultQueryParams.currentPage),
       pageSize: new FormControl(defaultQueryParams.pageSize),
@@ -60,20 +68,31 @@ export class MainPageComponent implements OnDestroy {
 
     activetedRoute.data
       .pipe(takeUntil(this.componentDestroyed$))
-      .subscribe(({ artObjectList }: { artObjectList: any }) => {
+      .subscribe(({ artObjectList }: { artObjectList: ArtObjectListResponse }) => {
         this.artObjectList = artObjectList;
       });
 
     this.requestParams.valueChanges
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe(params => {
-        router.navigate(['/'], {
+        router.navigate([activetedRoute.routeConfig.path], {
           queryParams: this.shrinkQueryParams(params)
         });
       });
+
+    this.favoritesService.favoritesUpdated$
+        .pipe(
+            takeUntil(this.componentDestroyed$),
+            filter(() => activetedRoute.snapshot.data.onlyFavorites)
+        )
+        .subscribe(() => {
+            router.navigate([activetedRoute.routeConfig.path], {
+                queryParams: activetedRoute.snapshot.queryParamMap
+            });
+        })  
   }
 
-  private shrinkQueryParams(queryParams: any): any {
+  private shrinkQueryParams(queryParams: QueryParams): Partial<QueryParams> {
     return Object.keys(queryParams)
       .filter(key => queryParams[key])
       .reduce((params, key) => {

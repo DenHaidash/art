@@ -1,10 +1,15 @@
 <div class="row my-3">
-  <div class="col-6 col-sm-4 mb-3 mb-sm-0">
+  <div class="col-5 col-sm-3">
+    <button class="btn btn-info w-100" routerLink="{{isFavoritesMode ? '/' : '/favorites'}}">
+      {{isFavoritesMode ? 'Hide' : 'Show'}} Favs ({{favoritesCount}})
+    </button>
+  </div>
+  <div class="col-7 col-sm-5 mb-3 mb-sm-0">
     <art-order-by-selector
       [formControl]="requestParams.get('orderBy')">
     </art-order-by-selector>
   </div>
-  <div class="col-12 col-sm-8">
+  <div class="col-12 col-sm-4">
     <art-search-bar
       [ngModel]="requestParams.get('searchString').value"
       (ngModelChange)="onSearchStringChange($event)"
@@ -38,6 +43,8 @@
   
 <ng-template #noResults>
   <div class="alert alert-secondary text-center" role="alert">
-    <b>No art objects could be found by your query</b>
+    <b>
+      {{isFavoritesMode ? 'No favorite items yet' : 'No art objects could be found by your query'}}
+    </b>
   </div>
 </ng-template>

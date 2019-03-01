@@ -7,7 +7,23 @@
     />
   </div>
   <div class="col-12 col-sm-6">
-    <p>{{ artObject.description }}</p>
+    <p *ngIf="artObject.description">
+      {{ artObject.description }}
+    </p>
+    <button
+      *ngIf="!isFavorite(artObject); else removeFromFavs"
+      class="btn btn-success"
+      (click)="addToFavorites(artObject)">
+      Add to favorites
+    </button>
+
+    <ng-template #removeFromFavs>
+      <button
+        class="btn btn-danger"
+        (click)="removeFromFavorites(artObject)">
+        Remove from favorites
+      </button>
+    </ng-template>
   </div>
 </div>
 

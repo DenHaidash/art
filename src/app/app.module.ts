@@ -21,6 +21,9 @@ import { ArtObjectDetailsComponent } from './components/art-object-details/art-o
 import { ArtObjectExtendedDetailsComponent } from './components/art-object-extended-details/art-object-extended-details.component';
 import { ArtObjectResolver } from './routing/resolvers/art-object.resolver';
 import { ArtObjectListResolver } from './routing/resolvers/art-object-list.resolver';
+import { FavoriteArtObjectsService } from './services/favorite-art-objects.service';
+import { PersistencyService } from './services/persistency.service';
+import { FavoriteArtObjectsClientService } from './services/favorite-art-object-client.service';
 
 @NgModule({
   declarations: [
@@ -46,6 +49,9 @@ import { ArtObjectListResolver } from './routing/resolvers/art-object-list.resol
   ],
   providers: [
     RijksmuseumClientService,
+    FavoriteArtObjectsService,
+    FavoriteArtObjectsClientService,
+    PersistencyService,
     ArtObjectResolver,
     ArtObjectListResolver
   ],

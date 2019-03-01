@@ -4,15 +4,18 @@ import { Observable, of } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
+import { ArtObjectListResponse } from '../models/domain/art-object-list-response';
+import { ArtObjectDetailsResponse } from '../models/domain/art-object-details-response';
+import { QueryParams } from '../models/query-params';
 
 @Injectable()
 export class RijksmuseumClientService {
-  private artObjectsCache = new Map();
+  private artObjectsCache = new Map<string, ArtObjectDetailsResponse>();
 
   constructor(private httpClient: HttpClient) {}
 
-  getCollection(params: any): Observable<any> {
-    return this.httpClient.get(
+  getCollection(params: QueryParams): Observable<ArtObjectListResponse> {
+    return this.httpClient.get<ArtObjectListResponse>(
       `${this.getBaseUrl()}/collection?${this.prepareQueryParams({
         p: params.currentPage,
         ps: params.pageSize,
@@ -24,15 +27,15 @@ export class RijksmuseumClientService {
     );
   }
 
-  getDetails(id: string, bypassCache = false): Observable<any> {
+  getDetails(id: string, bypassCache = false): Observable<ArtObjectDetailsResponse> {
     if (!bypassCache && this.artObjectsCache.has(id)) {
         return of(this.artObjectsCache.get(id));
     }
 
-    return this.httpClient.get(
+    return this.httpClient.get<ArtObjectDetailsResponse>(
       `${this.getBaseUrl()}/collection/${id}?${this.prepareQueryParams()}`
     ).pipe(
-        tap((artObject: any) => {
+        tap((artObject: ArtObjectDetailsResponse) => {
             this.artObjectsCache.set(id, artObject);
         }),
         share()
@@ -45,7 +48,7 @@ export class RijksmuseumClientService {
     }`;
   }
 
-  private prepareQueryParams(options: any = {}): string {
+  private prepareQueryParams(options: Partial<QueryParams> | {} = {}): string {
     options = options || {};
     const params = Object.keys(options).reduce(
       (acc, key) => `${acc}&${key}=${options[key]}`,

@@ -11,7 +11,15 @@ const routes: Routes = [{
     runGuardsAndResolvers: 'paramsOrQueryParamsChange',
     pathMatch: 'full',
     resolve: { artObjectList: ArtObjectListResolver }
-  }, {
+  },
+  {
+    path: 'favorites',
+    component: MainPageComponent,
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+    data: { onlyFavorites: true },
+    resolve: { artObjectList: ArtObjectListResolver }
+  },
+  {
     path: 'details/:id',
     component: DetailsPageComponent,
     resolve: { artObject: ArtObjectResolver }
@@ -22,7 +30,7 @@ const routes: Routes = [{
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
