@@ -11,6 +11,6 @@ export class DetailsPageComponent {
   artObject: ArtObjectDetails;
 
   constructor(activedRoute: ActivatedRoute) {
-    this.artObject = activedRoute.snapshot.data['artObject'];
+    this.artObject = activedRoute.snapshot.data.artObject;
   }
 }

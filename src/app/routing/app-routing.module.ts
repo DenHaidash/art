@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MainPageComponent } from '../components/pages/main/main-page.component';
-import { DetailsPageComponent } from '../components/pages/details/details-page.component';
-import { ArtObjectResolver } from './resolvers/art-object.resolver';
-import { ArtObjectListResolver } from './resolvers/art-object-list.resolver';
 
-const routes: Routes = [{
+import { MainPageComponent } from 'src/app/components/pages/main/main-page.component';
+import { DetailsPageComponent } from 'src/app/components/pages/details/details-page.component';
+import { ArtObjectResolver } from 'src/app/routing/resolvers/art-object.resolver';
+import { ArtObjectListResolver } from 'src/app/routing/resolvers/art-object-list.resolver';
+
+const routes: Routes = [
+  {
     path: '',
     component: MainPageComponent,
     runGuardsAndResolvers: 'paramsOrQueryParamsChange',
@@ -23,7 +25,8 @@ const routes: Routes = [{
     path: 'details/:id',
     component: DetailsPageComponent,
     resolve: { artObject: ArtObjectResolver }
-  }, {
+  },
+  {
     path: '**',
     redirectTo: ''
   }
@@ -33,4 +36,4 @@ const routes: Routes = [{
   imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

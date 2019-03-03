@@ -1,7 +1,8 @@
-import { ArtObjectDetails } from '../models/domain/art-object-details';
 import { Injectable } from '@angular/core';
-import { PersistencyService } from './persistency.service';
 import { Subject, Observable } from 'rxjs';
+
+import { ArtObjectDetails } from 'src/app/models/domain/art-object-details';
+import { PersistencyService } from 'src/app/services/persistency.service';
 
 const favObjectsKey = 'art-fav-objects';
 
@@ -15,7 +16,9 @@ export class FavoriteArtObjectsService {
   }
 
   constructor(private persistencyService: PersistencyService) {
-    const artObjects = this.persistencyService.getData<ArtObjectDetails[]>(favObjectsKey);
+    const artObjects = this.persistencyService.getData<ArtObjectDetails[]>(
+      favObjectsKey
+    );
 
     if (artObjects) {
       for (const artObject of artObjects) {

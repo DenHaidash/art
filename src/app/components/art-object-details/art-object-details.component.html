@@ -1,5 +1,5 @@
 <div class="row" *ngIf="(artObject$ | async) as artObject; else loadingOrError">
-  <div class="col-12 col-sm-6">
+  <div class="col-12 col-sm-6 mb-3 mb-sm-0">
     <img
       src="{{ artObject.webImage?.url }}"
       alt="Art object's image"

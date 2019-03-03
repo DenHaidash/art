@@ -8,7 +8,7 @@ import { ArtObjectDetails } from 'src/app/models/domain/art-object-details';
 
 @Component({
   selector: 'art-object-details',
-  templateUrl: './art-object-details.component.html',
+  templateUrl: './art-object-details.component.html'
 })
 export class ArtObjectDetailsComponent implements OnInit {
   @Input() artObjectNumber: string;
@@ -16,17 +16,25 @@ export class ArtObjectDetailsComponent implements OnInit {
   artObject$!: Observable<ArtObjectDetails>;
   hasError = false;
 
-  constructor(private rijksmuseumClientService: RijksmuseumClientService, private favoritesService: FavoriteArtObjectsService) { }
+  constructor(
+    private rijksmuseumClientService: RijksmuseumClientService,
+    private favoritesService: FavoriteArtObjectsService
+  ) {}
 
   ngOnInit(): void {
-    this.artObject$ = this.rijksmuseumClientService.getDetails(this.artObjectNumber).pipe(
-      map(response => response.artObject),
-      tap(() => {
-        this.hasError = false;
-      }, () => {
-        this.hasError = true;
-      })
-    );
+    this.artObject$ = this.rijksmuseumClientService
+      .getDetails(this.artObjectNumber)
+      .pipe(
+        map(response => response.artObject),
+        tap(
+          () => {
+            this.hasError = false;
+          },
+          () => {
+            this.hasError = true;
+          }
+        )
+      );
   }
 
   addToFavorites(artObject: ArtObjectDetails): void {

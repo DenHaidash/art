@@ -3,12 +3,12 @@
   {{artObject?.title}}
 </h3>
 <div class="row mb-4">
-  <div class="col-8 border-right">
+  <div class="col-12 col-sm-8">
     <p>
       {{artObject?.description}}
     </p>
   </div>
-  <div class="col-4">
+  <div class="col-12 col-sm-4">
     <div class="mb-3">
       <h6>
         Category
@@ -22,10 +22,16 @@
         Tags
       </h6>
       <div *ngIf="artObject?.tags && artObject?.tags.length > 0; else noTags">
-        <span *ngFor="let tag of artObject?.tags">
+        <span *ngFor="let tag of artObject?.tags; last as isLast"
+          class="badge badge-secondary"
+          [class.mr-1]="isLast">
           {{tag}}
         </span>
       </div>
+
+      <ng-template #noTags>
+        No tags
+      </ng-template>
     </div>
 
     <div>
@@ -46,7 +52,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #noTags>
-  No tags
-</ng-template>

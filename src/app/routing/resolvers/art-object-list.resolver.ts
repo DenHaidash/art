@@ -16,8 +16,12 @@ export const defaultQueryParams: QueryParams = {
 };
 
 @Injectable()
-export class ArtObjectListResolver implements Resolve<Observable<ArtObjectListResponse>> {
-  constructor(private rijksmuseumClientService: RijksmuseumClientService, private favoriteArtObjectsClientService: FavoriteArtObjectsClientService) {}
+export class ArtObjectListResolver
+  implements Resolve<Observable<ArtObjectListResponse>> {
+  constructor(
+    private rijksmuseumClientService: RijksmuseumClientService,
+    private favoriteArtObjectsClientService: FavoriteArtObjectsClientService
+  ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ArtObjectListResponse> {
     window.scrollTo(0, 0);
@@ -29,5 +33,5 @@ export class ArtObjectListResolver implements Resolve<Observable<ArtObjectListRe
     }
 
     return this.rijksmuseumClientService.getCollection(params);
-  };
+  }
 }

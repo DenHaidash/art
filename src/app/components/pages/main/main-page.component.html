@@ -1,19 +1,18 @@
 <div class="row my-3">
-  <div class="col-5 col-sm-3">
+  <div class="col-5 col-md-3 col-lg-2">
     <button class="btn btn-info w-100" routerLink="{{isFavoritesMode ? '/' : '/favorites'}}">
       {{isFavoritesMode ? 'Hide' : 'Show'}} Favs ({{favoritesCount}})
     </button>
   </div>
-  <div class="col-7 col-sm-5 mb-3 mb-sm-0">
+  <div class="col-7 col-md-5 col-lg-3 mb-3 mb-md-0">
     <art-order-by-selector
       [formControl]="requestParams.get('orderBy')">
     </art-order-by-selector>
   </div>
-  <div class="col-12 col-sm-4">
+  <div class="col-12 col-md-4 col-lg-7">
     <art-search-bar
       [ngModel]="requestParams.get('searchString').value"
-      (ngModelChange)="onSearchStringChange($event)"
-    >
+      (ngModelChange)="onSearchStringChange($event)">
     </art-search-bar>
   </div>
 </div>

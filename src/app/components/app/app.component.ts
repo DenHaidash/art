@@ -34,6 +34,7 @@ export class AppComponent {
         case event instanceof NavigationError: {
           this.isLoading = false;
           this.hasError = true;
+          break;
         }
 
         default: {

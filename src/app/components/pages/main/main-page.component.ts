@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+
 import { defaultQueryParams } from 'src/app/routing/resolvers/art-object-list.resolver';
 import { ArtObjectListResponse } from 'src/app/models/domain/art-object-list-response';
 import { QueryParams } from 'src/app/models/query-params';
@@ -49,10 +50,14 @@ export class MainPageComponent implements OnDestroy {
   private readonly componentDestroyed$: Observable<boolean>;
 
   get favoritesCount(): number {
-      return this.favoritesService.getFavoritesCount();
+    return this.favoritesService.getFavoritesCount();
   }
 
-  constructor(router: Router, private activetedRoute: ActivatedRoute, private favoritesService: FavoriteArtObjectsService) {
+  constructor(
+    router: Router,
+    private activetedRoute: ActivatedRoute,
+    private favoritesService: FavoriteArtObjectsService
+  ) {
     this.requestParams = new FormGroup({
       currentPage: new FormControl(defaultQueryParams.currentPage),
       pageSize: new FormControl(defaultQueryParams.pageSize),
@@ -68,9 +73,11 @@ export class MainPageComponent implements OnDestroy {
 
     activetedRoute.data
       .pipe(takeUntil(this.componentDestroyed$))
-      .subscribe(({ artObjectList }: { artObjectList: ArtObjectListResponse }) => {
-        this.artObjectList = artObjectList;
-      });
+      .subscribe(
+        ({ artObjectList }: { artObjectList: ArtObjectListResponse }) => {
+          this.artObjectList = artObjectList;
+        }
+      );
 
     this.requestParams.valueChanges
       .pipe(takeUntil(this.componentDestroyed$))
@@ -81,15 +88,15 @@ export class MainPageComponent implements OnDestroy {
       });
 
     this.favoritesService.favoritesUpdated$
-        .pipe(
-            takeUntil(this.componentDestroyed$),
-            filter(() => activetedRoute.snapshot.data.onlyFavorites)
-        )
-        .subscribe(() => {
-            router.navigate([activetedRoute.routeConfig.path], {
-                queryParams: activetedRoute.snapshot.queryParamMap
-            });
-        })  
+      .pipe(
+        takeUntil(this.componentDestroyed$),
+        filter(() => activetedRoute.snapshot.data.onlyFavorites)
+      )
+      .subscribe(() => {
+        router.navigate([activetedRoute.routeConfig.path], {
+          queryParams: activetedRoute.snapshot.queryParamMap
+        });
+      });
   }
 
   private shrinkQueryParams(queryParams: QueryParams): Partial<QueryParams> {

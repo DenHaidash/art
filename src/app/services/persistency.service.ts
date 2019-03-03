@@ -2,7 +2,7 @@ export class PersistencyService {
   getData<T>(key: string): T | null {
     try {
       return JSON.parse(localStorage.getItem(key)) as T;
-    } catch(err) {
+    } catch (err) {
       return null;
     }
   }

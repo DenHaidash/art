@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
-import { ArtObjectListResponse } from '../models/domain/art-object-list-response';
-import { ArtObjectDetailsResponse } from '../models/domain/art-object-details-response';
-import { QueryParams } from '../models/query-params';
+import { environment } from 'src/environments/environment';
+import { ArtObjectListResponse } from 'src/app/models/domain/art-object-list-response';
+import { ArtObjectDetailsResponse } from 'src/app/models/domain/art-object-details-response';
+import { QueryParams } from 'src/app/models/query-params';
 
 @Injectable()
 export class RijksmuseumClientService {

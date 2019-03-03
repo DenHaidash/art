@@ -1,9 +1,9 @@
 export interface ArtObjectDetails {
-  objectNumber: string,
-  title: string,
-  longTitle: string,
+  objectNumber: string;
+  title: string;
+  longTitle: string;
   webImage?: {
-    url: string
-  },
-  description: string
+    url: string;
+  };
+  description: string;
 }

@@ -1,11 +1,11 @@
 export interface ArtObject {
-  objectNumber: string,
-  title: string,
-  longTitle: string,
+  objectNumber: string;
+  title: string;
+  longTitle: string;
   webImage?: {
-    url: string
-  },
+    url: string;
+  };
   headerImage?: {
-    url: string
-  }
+    url: string;
+  };
 }

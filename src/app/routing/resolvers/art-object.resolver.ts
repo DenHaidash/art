@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -10,9 +10,9 @@ import { ArtObjectDetails } from 'src/app/models/domain/art-object-details';
 export class ArtObjectResolver implements Resolve<Observable<ArtObjectDetails>> {
   constructor(private rijksmuseumClientService: RijksmuseumClientService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ArtObjectDetails> {
+  resolve(route: ActivatedRouteSnapshot): Observable<ArtObjectDetails> {
     return this.rijksmuseumClientService.getDetails(route.paramMap.get('id')).pipe(
-      map(response => response.artObject),
+      map(response => response.artObject)
     );
-  };
+  }
 }
