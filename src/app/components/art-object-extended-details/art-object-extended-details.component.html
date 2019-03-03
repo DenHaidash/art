@@ -22,10 +22,10 @@
         Tags
       </h6>
       <div *ngIf="artObject?.tags && artObject?.tags.length > 0; else noTags">
-        <span *ngFor="let tag of artObject?.tags; last as isLast"
+        <span *ngFor="let tag of artObject?.tags; last as last"
           class="badge badge-secondary"
-          [class.mr-1]="isLast">
-          {{tag}}
+          [class.mr-1]="last">
+          {{tag.name}}
         </span>
       </div>
 

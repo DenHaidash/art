@@ -7,4 +7,10 @@ export interface ArtObjectDetails {
     url: string;
   };
   description: string;
+  tags: {
+    userId: number;
+    name: string;
+    lang: string;
+    objectNumber: string;
+  }[];
 }
