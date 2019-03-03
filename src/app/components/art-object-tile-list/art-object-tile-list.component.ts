@@ -38,4 +38,8 @@ export class ArtObjectTileListComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.modalService.dismissAll();
   }
+
+  artObjectIdentity(index: number, artObject: ArtObject): string {
+    return artObject.objectNumber;
+  }
 }

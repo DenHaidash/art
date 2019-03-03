@@ -1,6 +1,9 @@
 <div class="row my-3">
   <div class="col-5 col-md-3 col-lg-2">
-    <button class="btn btn-info w-100" routerLink="{{isFavoritesMode ? '/' : '/favorites'}}">
+    <button class="btn w-100"
+      [class.btn-warning]="isFavoritesMode"
+      [class.btn-info]="!isFavoritesMode"
+      routerLink="{{isFavoritesMode ? '/' : '/favorites'}}">
       {{isFavoritesMode ? 'Hide' : 'Show'}} Favs ({{favoritesCount}})
     </button>
   </div>
@@ -25,8 +28,9 @@
   <div class="row my-3">
     <ngb-pagination
       class="col-12 col-sm-8 d-flex justify-content-center"
-      [collectionSize]="totalPages"
+      [collectionSize]="collectionSize"
       [page]="requestParams.controls.currentPage.value"
+      [pageSize]="requestParams.controls.pageSize.value"
       (pageChange)="onPageChange($event)"
       [maxSize]="5"
       [boundaryLinks]="true">

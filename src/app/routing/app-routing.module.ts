@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: 'favorites',
     component: MainPageComponent,
-    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+    runGuardsAndResolvers: 'always',
     data: { onlyFavorites: true },
     resolve: { artObjectList: ArtObjectListResolver }
   },

@@ -1,10 +1,9 @@
 <div class="row">
   <art-object-tile
-    *ngFor="let artObject of artObjects"
+    *ngFor="let artObject of artObjects; trackBy: artObjectIdentity"
     (click)="openModal(artObject)"
     [artObject]="artObject"
-    class="col-6 col-sm-4 col-md-3 col-lg-2 my-3"
-  >
+    class="col-6 col-sm-4 col-md-3 col-lg-2 my-3">
   </art-object-tile>
 </div>
 
@@ -23,8 +22,7 @@
     <button
       type="button"
       class="btn btn-info mr-auto"
-      [routerLink]="['/details', selectedArtObject?.objectNumber]"
-    >
+      [routerLink]="['/details', selectedArtObject?.objectNumber]">
       View more details
     </button>
     <button type="button" class="btn btn-light" (click)="modal.close()">

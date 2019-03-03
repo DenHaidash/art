@@ -11,10 +11,6 @@ export class ArtObjectTileComponent {
   @Input() artObject: ArtObject;
 
   get imageUrl(): string {
-    if (this.artObject.headerImage) {
-      return this.artObject.headerImage.url;
-    }
-
-    return this.artObject.webImage.url;
+    return this.artObject.headerImage.url;
   }
 }

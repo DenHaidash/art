@@ -26,17 +26,10 @@ export class MainPageComponent implements OnDestroy {
     );
   }
 
-  get totalPages(): number {
+  get collectionSize(): number {
     if (this.hasResults) {
-      const estimatedPageQuantity = Math.ceil(
-        this.artObjectList.count / this.requestParams.controls.pageSize.value
-      );
-
       const maxAllowedResultsNumber = 10000;
-      const maxAllowedPageNumber = Math.floor(
-        maxAllowedResultsNumber / this.requestParams.controls.pageSize.value
-      );
-      return Math.min(estimatedPageQuantity, maxAllowedPageNumber);
+      return Math.min(this.artObjectList.count, maxAllowedResultsNumber);
     }
 
     return 0;
@@ -94,7 +87,7 @@ export class MainPageComponent implements OnDestroy {
       )
       .subscribe(() => {
         router.navigate([activetedRoute.routeConfig.path], {
-          queryParams: activetedRoute.snapshot.queryParamMap
+          queryParams: activetedRoute.snapshot.queryParams
         });
       });
   }
