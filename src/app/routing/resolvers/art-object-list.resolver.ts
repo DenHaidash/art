@@ -10,7 +10,7 @@ import { FavoriteArtObjectsClientService } from 'src/app/services/favorite-art-o
 
 export const defaultQueryParams: QueryParams = {
   currentPage: 1,
-  pageSize: 20,
+  pageSize: 10,
   searchString: '',
   orderBy: OrderByType.Relevance
 };
