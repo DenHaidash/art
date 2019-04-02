@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
 
@@ -16,12 +16,15 @@ export class RijksmuseumClientService {
 
   getCollection(params: QueryParams): Observable<ArtObjectListResponse> {
     return this.httpClient.get<ArtObjectListResponse>(
-      `${this.getBaseUrl()}/collection?${this.prepareQueryParams({
-        p: params.currentPage,
-        ps: params.pageSize,
-        s: params.orderBy,
-        q: params.searchString
-      })}`
+      `${this.getBaseUrl()}/collection`,
+      {
+        params: this.prepareQueryParams({
+          p: params.currentPage,
+          ps: params.pageSize,
+          s: params.orderBy,
+          q: params.searchString
+        })
+      }
     ).pipe(
         share()
     );
@@ -33,7 +36,10 @@ export class RijksmuseumClientService {
     }
 
     return this.httpClient.get<ArtObjectDetailsResponse>(
-      `${this.getBaseUrl()}/collection/${id}?${this.prepareQueryParams()}`
+      `${this.getBaseUrl()}/collection/${id}`,
+      {
+        params: this.prepareQueryParams()
+      }
     ).pipe(
         tap((artObject: ArtObjectDetailsResponse) => {
             this.artObjectsCache.set(id, artObject);
@@ -48,16 +54,13 @@ export class RijksmuseumClientService {
     }`;
   }
 
-  private prepareQueryParams(options: Partial<QueryParams> | {} = {}): string {
-    options = options || {};
-    const params = Object.keys(options).reduce(
-      (acc, key) => `${acc}&${key}=${options[key]}`,
-      ''
-    );
-    return `key=${
-      environment.rijksmuseumApiCongif.apiKey
-    }&format=json&imgonly=${
-      environment.rijksmuseumApiCongif.withImageOnly
-    }${params}`;
+  private prepareQueryParams(options: Partial<QueryParams> | {} = {}): HttpParams {
+    const params = new HttpParams()
+      .set('key', environment.rijksmuseumApiCongif.apiKey)
+      .set('format', 'json')
+      .set('imgonly', environment.rijksmuseumApiCongif.withImageOnly.toString());
+
+    return Object.entries(options)
+      .reduce((params: HttpParams, [key, value]: [string, string|number]) => params.set(key, value.toString()), params);
   }
 }
